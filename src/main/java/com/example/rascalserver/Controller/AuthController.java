@@ -37,6 +37,9 @@ public class AuthController {
     public SingleResult<String> login(@ApiParam(value = "Email", required = true) @RequestParam("email") String email,
                                       @ApiParam(value = "Password", required = true) @RequestParam("password") String password) {
         Account account = accountJpaRepo.findByEmail(email).orElseThrow(LoginFailedException::new);
+        log.info("Login : {} {} {}", account.getEmail(), account.getPassword(), account.getName());
+        log.info("Login : {} {}", email, password);
+
         if (!passwordEncoder.matches(password, account.getPassword())) { throw new LoginFailedException(); }
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(account.getUid()), account.getRoles()));
     }
