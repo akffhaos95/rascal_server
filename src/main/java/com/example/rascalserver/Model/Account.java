@@ -30,6 +30,9 @@ public class Account implements UserDetails {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false, length = 100)
+    private String password;
+
+    @Column(nullable = false, length = 100)
     private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
