@@ -1,4 +1,4 @@
-package com.example.rascalserver.Model;
+package com.example.rascalserver.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -61,4 +61,17 @@ public class Account implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isEnabled() { return false; }
+
+    @Builder
+    public Account(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    @Builder
+    public Account(String email, String password, String name) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+    }
 }

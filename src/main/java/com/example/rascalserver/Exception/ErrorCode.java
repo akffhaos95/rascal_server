@@ -18,6 +18,7 @@ public enum ErrorCode {
 //    EMAIL_DUPLICATION("MEMBER-ERR-400", "EMAIL DUPLICATED"),
 
     LOGIN_FAILED(-1001, "로그인에 실패하였습니다."),
+    NOT_FOUND(404, "찾을 수 없습니다."),
     ;
 
     private int code;

@@ -1,6 +1,6 @@
-package com.example.rascalserver.Repository;
+package com.example.rascalserver.DAO;
 
-import com.example.rascalserver.Model.Account;
+import com.example.rascalserver.Entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

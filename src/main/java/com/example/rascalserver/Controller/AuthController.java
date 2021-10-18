@@ -1,9 +1,11 @@
 package com.example.rascalserver.Controller;
 
 import com.example.rascalserver.Config.JwtTokenProvider;
+import com.example.rascalserver.DTO.LoginAccount;
+import com.example.rascalserver.DTO.RegisterAccount;
 import com.example.rascalserver.Exception.LoginFailedException;
-import com.example.rascalserver.Model.Account;
-import com.example.rascalserver.Repository.AccountJpaRepo;
+import com.example.rascalserver.Entity.Account;
+import com.example.rascalserver.DAO.AccountJpaRepo;
 import com.example.rascalserver.Result.CommonResult;
 import com.example.rascalserver.Result.ResponseService;
 import com.example.rascalserver.Result.SingleResult;
@@ -13,10 +15,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -34,26 +33,19 @@ public class AuthController {
 
     @ApiOperation(value = "Login")
     @PostMapping(value = "/login")
-    public SingleResult<String> login(@ApiParam(value = "Email", required = true) @RequestParam("email") String email,
-                                      @ApiParam(value = "Password", required = true) @RequestParam("password") String password) {
-        Account account = accountJpaRepo.findByEmail(email).orElseThrow(LoginFailedException::new);
-        log.info("Login : {} {} {}", account.getEmail(), account.getPassword(), account.getName());
-        log.info("Login : {} {}", email, password);
-
-        if (!passwordEncoder.matches(password, account.getPassword())) { throw new LoginFailedException(); }
+    public SingleResult<String> login(@ApiParam(value = "LoginAccount") @RequestBody LoginAccount loginAccount) {
+        Account account = accountJpaRepo.findByEmail(loginAccount.getEmail()).orElseThrow(LoginFailedException::new);
+        if (!passwordEncoder.matches(loginAccount.getPassword(), account.getPassword())) { throw new LoginFailedException(); }
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(account.getUid()), account.getRoles()));
     }
 
     @ApiOperation(value = "Register")
     @PostMapping(value = "/register")
-    public CommonResult register(@ApiParam(value = "Email", required = true) @RequestParam("email") String email,
-                                 @ApiParam(value = "Password", required = true) @RequestParam("password") String password,
-                                 @ApiParam(value = "Name", required = true) @RequestParam("name") String name) {
-        log.info("Register : {} {} {}", email, password, name);
+    public CommonResult register(@ApiParam(value = "RegisterAccount") @RequestBody RegisterAccount registerAccount) {
         accountJpaRepo.save(Account.builder()
-                .email(email)
-                .password(passwordEncoder.encode(password))
-                .name(name)
+                .email(registerAccount.getEmail())
+                .password(passwordEncoder.encode(registerAccount.getPassword()))
+                .name(registerAccount.getName())
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
         return responseService.getSuccessResult();
