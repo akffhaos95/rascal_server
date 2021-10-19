@@ -1,15 +1,11 @@
 package com.example.rascalserver.Controller;
 
-import com.example.rascalserver.DAO.GameBatterJpaRepo;
-import com.example.rascalserver.DTO.Hit;
 import com.example.rascalserver.DTO.RecordGameBatter;
-import com.example.rascalserver.Entity.Game;
 import com.example.rascalserver.Entity.GameBatter;
 import com.example.rascalserver.Result.CommonResult;
 import com.example.rascalserver.Result.ListResult;
 import com.example.rascalserver.Result.ResponseService;
-import com.example.rascalserver.Result.SingleResult;
-import com.example.rascalserver.Service.MakeRecord;
+import com.example.rascalserver.Service.GameBatterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,33 +22,27 @@ import java.util.List;
 @RequestMapping("/api/game/batter")
 public class GameBatterController {
 
-    private final GameBatterJpaRepo gameBatterJpaRepo;
+    private final GameBatterService gameBatterService;
     private final ResponseService responseService;
 
     // Get By GameId
     @ApiOperation(value = "Batter Game")
     @GetMapping(value = "/{gameId}")
-    public ListResult<GameBatter> getGameBatter(@ApiParam(value = "GameID") @PathVariable("gameId") String gameId) {
-        // 게임이 존재하는지 확인
-        log.info(String.valueOf(gameId));
-        List<GameBatter> gameBatterList = gameBatterJpaRepo.findAllByGameID(Long.valueOf(gameId));
-        return responseService.getListResult(gameBatterList);
+    public ListResult<GameBatter> getGameBatters(@ApiParam(value = "GameID") @PathVariable("gameId") String gameId) {
+        return responseService.getListResult(gameBatterService.findGameBattersById(Long.valueOf(gameId)));
     }
 
-    // Post Batter Record
-    @ApiOperation(value = "Record Batter")
+    @ApiOperation(value = "Create/Update Batter")
     @PostMapping(value = "/{gameId}")
-    public CommonResult recordGame(@ApiParam(value = "GameID") @PathVariable("gameId") String gameId,
+    public ListResult<GameBatter> createUpdateGameBatters(@ApiParam(value = "GameID") @PathVariable("gameId") String gameId,
                                    @ApiParam(value = "LoginAccount") @RequestBody List<RecordGameBatter> recordGameBatters) {
+        return responseService.getListResult(gameBatterService.saveGameBatters(Long.valueOf(gameId), recordGameBatters));
+    }
 
-        // 게임이 존재하는지 확인
-        MakeRecord makeRecord = new MakeRecord();
-
-        log.info(String.valueOf(gameId));
-        for(RecordGameBatter recordGameBatter: recordGameBatters) {
-            log.info(String.valueOf(recordGameBatter.getGameBatterId()));
-            GameBatter gameBatter = gameBatterJpaRepo.save(makeRecord.createGameBatter(Long.valueOf(gameId), recordGameBatter));
-        }
+    @ApiOperation(value = "Delete GameBatter")
+    @DeleteMapping(value = "/{gameBatterId}")
+    public CommonResult deleteGameBatter(@ApiParam(value = "GameBatterID") @PathVariable("gameBatterId") String gameBatterId) {
+        gameBatterService.deleteGameBatter(Long.valueOf(gameBatterId));
         return responseService.getSuccessResult();
     }
 }

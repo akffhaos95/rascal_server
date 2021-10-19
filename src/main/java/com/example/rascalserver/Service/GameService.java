@@ -8,5 +8,6 @@ import java.util.List;
 public interface GameService {
     List<Games> findAllGames();
     Game findGame(Long GameId) throws Exception;
-    Game createGame(Game game);
+    Game saveGame(Game game);
+    void deleteGame(Long GameId);
 }

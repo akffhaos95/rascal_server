@@ -2,6 +2,7 @@ package com.example.rascalserver.Controller;
 
 import com.example.rascalserver.DTO.Games;
 import com.example.rascalserver.Entity.Game;
+import com.example.rascalserver.Result.CommonResult;
 import com.example.rascalserver.Result.ListResult;
 import com.example.rascalserver.Result.ResponseService;
 import com.example.rascalserver.Result.SingleResult;
@@ -38,12 +39,13 @@ public class GameController {
     @ApiOperation(value = "Create/Update Game")
     @PostMapping(value = "/" )
     public SingleResult<Game> createUpdateGame(@ApiParam(value = "Game") @RequestBody Game game) {
-        return responseService.getSingleResult(gameService.createGame(game));
+        return responseService.getSingleResult(gameService.saveGame(game));
     }
 
     @ApiOperation(value = "Delete Game")
-    @PostMapping(value = "/{gameId}" )
-    public SingleResult<Game> deleteGame(@ApiParam(value = "Game") @RequestBody Game game) {
-        return responseService.getSingleResult(gameService.createGame(game));
+    @DeleteMapping(value = "/{gameId}" )
+    public CommonResult deleteGame(@ApiParam(value = "GameID") @PathVariable String gameId) {
+        gameService.deleteGame(Long.valueOf(gameId));
+        return responseService.getSuccessResult();
     }
 }

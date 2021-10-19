@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,7 +26,6 @@ public class GameServiceImpl implements GameService {
     }
 
     private List<Game> _findALlGames() {
-        log.info("find");
         return gameJpaRepo.findAll();
     }
 
@@ -37,7 +35,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game createGame(Game game) {
+    public Game saveGame(Game game) {
         Game.GameBuilder newGame = Game.builder()
                 .location(game.getLocation())
                 .date(game.getDate())
@@ -47,5 +45,10 @@ public class GameServiceImpl implements GameService {
                 .type(game.getType());
         if(game.getGameID() == 0) return gameJpaRepo.save(newGame.build());
         else return gameJpaRepo.save(newGame.gameID(game.getGameID()).build());
+    }
+
+    @Override
+    public void deleteGame(Long gameId) {
+        gameJpaRepo.deleteById(gameId);
     }
 }
