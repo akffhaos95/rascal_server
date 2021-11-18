@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -25,6 +26,9 @@ public class Account implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
 
+    @Column
+    private String image;
+
     @Column(nullable = false, unique = true, length = 30)
     private String email;
 
@@ -38,6 +42,12 @@ public class Account implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    @Column(name = "createdAt")
+    public Date createdAt;
+
+    @Column(name = "updatedAt")
+    public Date updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { return null; }

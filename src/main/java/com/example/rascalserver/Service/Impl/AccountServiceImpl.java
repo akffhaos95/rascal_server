@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 
 @Slf4j
 @Service
@@ -32,10 +33,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account register(RegisterAccount registerAccount) {
+        Date now = new Date();
         return accountJpaRepo.save(Account.builder()
                 .email(registerAccount.getEmail())
+                .image(registerAccount.getImage())
                 .password(passwordEncoder.encode(registerAccount.getPassword()))
                 .name(registerAccount.getName())
+                .createdAt(now)
+                .updatedAt(now)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
     }

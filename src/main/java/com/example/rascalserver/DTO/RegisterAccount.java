@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class RegisterAccount extends LoginAccount {
     String name;
-
+    String image;
 }
