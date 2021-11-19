@@ -9,10 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Builder
 @NoArgsConstructor
@@ -21,7 +18,6 @@ import java.util.List;
 @Entity
 @Table(name = "Account")
 public class Account implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long uid;
@@ -39,15 +35,18 @@ public class Account implements UserDetails {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @OneToMany(mappedBy = "account")
+    Set<AccountToPlayer> accountToPlayer;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
     @Column(name = "createdAt")
-    public Date createdAt;
+    private Date createdAt;
 
     @Column(name = "updatedAt")
-    public Date updatedAt;
+    private Date updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { return null; }

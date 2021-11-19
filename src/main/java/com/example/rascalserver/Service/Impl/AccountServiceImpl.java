@@ -44,4 +44,14 @@ public class AccountServiceImpl implements AccountService {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
     }
+
+    @Override
+    public void logout() {
+
+    }
+
+    @Override
+    public Account profile() {
+        return null;
+    }
 }
