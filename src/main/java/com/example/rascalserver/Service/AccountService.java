@@ -12,4 +12,5 @@ public interface AccountService {
 
     // Account
     Account profile();
+    void registerTeam(String uid, String teamId);
 }

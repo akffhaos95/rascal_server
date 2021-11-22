@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-
 @Slf4j
 @Api(tags = {"1. Auth"})
 @RestController
@@ -36,11 +34,4 @@ public class AuthController {
     public CommonResult register(@ApiParam(value = "RegisterAccount") @RequestBody RegisterAccount registerAccount) {
         return responseService.getSingleResult(accountService.register(registerAccount));
     }
-
-    @ApiOperation(value = "Logout")
-    @PostMapping(value = "/logout")
-    public CommonResult logout() {
-        return responseService.getSuccessResult();
-    }
-
 }

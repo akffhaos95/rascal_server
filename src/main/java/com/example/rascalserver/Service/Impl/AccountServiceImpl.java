@@ -54,4 +54,9 @@ public class AccountServiceImpl implements AccountService {
     public Account profile() {
         return null;
     }
+
+    @Override
+    public void registerTeam(String uid, String teamId) {
+
+    }
 }
