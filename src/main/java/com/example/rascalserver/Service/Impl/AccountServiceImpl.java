@@ -2,6 +2,7 @@ package com.example.rascalserver.Service.Impl;
 
 import com.example.rascalserver.Config.JwtTokenProvider;
 import com.example.rascalserver.DAO.AccountJpaRepo;
+import com.example.rascalserver.DTO.EditAccount;
 import com.example.rascalserver.DTO.LoginAccount;
 import com.example.rascalserver.DTO.RegisterAccount;
 import com.example.rascalserver.Entity.Account;
@@ -46,13 +47,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void logout() {
+    public Account editProfile(Account now_account, EditAccount new_account) {
+        now_account.setName(new_account.getName());
+        now_account.setImage(new_account.getImage());
+        return accountJpaRepo.save(now_account);
 
-    }
-
-    @Override
-    public Account profile() {
-        return null;
     }
 
     @Override

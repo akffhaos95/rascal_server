@@ -80,4 +80,12 @@ public class Account implements UserDetails {
         this.password = password;
         this.name = name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

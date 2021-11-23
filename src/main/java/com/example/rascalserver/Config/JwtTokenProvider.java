@@ -1,5 +1,6 @@
 package com.example.rascalserver.Config;
 
+import com.example.rascalserver.Entity.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -50,8 +51,7 @@ public class JwtTokenProvider {
 
     // Jwt 토큰으로 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
-        log.info(userDetails.getUsername());
+        Account userDetails = (Account) userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
