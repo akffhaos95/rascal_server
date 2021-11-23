@@ -35,6 +35,9 @@ public class Account implements UserDetails {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @OneToMany(mappedBy = "account")
+    private Set<AccountToTeam> team;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

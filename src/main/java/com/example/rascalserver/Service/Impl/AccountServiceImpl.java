@@ -47,6 +47,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account profile(Long uid) {
+        return accountJpaRepo.getById(uid);
+    }
+
+    @Override
     public Account editProfile(Account now_account, EditAccount new_account) {
         now_account.setName(new_account.getName());
         now_account.setImage(new_account.getImage());

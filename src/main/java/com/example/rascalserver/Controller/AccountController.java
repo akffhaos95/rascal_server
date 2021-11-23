@@ -2,7 +2,6 @@ package com.example.rascalserver.Controller;
 
 import com.example.rascalserver.DTO.EditAccount;
 import com.example.rascalserver.Entity.Account;
-import com.example.rascalserver.Entity.Game;
 import com.example.rascalserver.Result.ResponseService;
 import com.example.rascalserver.Result.SingleResult;
 import com.example.rascalserver.Service.AccountService;
@@ -29,7 +28,7 @@ public class AccountController {
     public SingleResult<Account> profile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Account account = (Account) authentication.getPrincipal();
-        return responseService.getSingleResult(account);
+        return responseService.getSingleResult(accountService.profile(account.getUid()));
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "access_token", required = true, dataType = "String", paramType = "header") })
@@ -41,11 +40,4 @@ public class AccountController {
         Account new_account = accountService.editProfile(now_account, edit_account);
         return responseService.getSingleResult(new_account);
     }
-
-//    @ApiOperation(value = "Create/Update Game")
-//    @PostMapping(value = "/" )
-//    public SingleResult<Game> createUpdateGame(@ApiParam(value = "Game") @RequestBody Game game) {
-//        return responseService.getSingleResult(gameService.saveGame(game));
-//    }
-
 }

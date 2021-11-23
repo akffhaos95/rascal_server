@@ -1,9 +1,8 @@
-package com.example.rascalserver.Service;
+package com.example.rascalserver.Service.Impl;
 
 import com.example.rascalserver.Exception.LoginFailedException;
 import com.example.rascalserver.DAO.AccountJpaRepo;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;

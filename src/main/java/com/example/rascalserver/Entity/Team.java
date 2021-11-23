@@ -26,6 +26,8 @@ public class Team {
     @Column(nullable = false, length = 30)
     private String name;
 
+    @OneToMany(mappedBy = "team")
+    private Set<AccountToTeam> members;
 
     @Column(name = "createdAt")
     private Date createdAt;

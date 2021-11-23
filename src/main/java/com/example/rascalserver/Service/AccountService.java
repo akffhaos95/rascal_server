@@ -11,6 +11,7 @@ public interface AccountService {
     Account register(RegisterAccount registerAccount);
 
     // Account
+    Account profile(Long uid);
     Account editProfile(Account now_account, EditAccount editAccount);
     void registerTeam(String uid, String teamId);
 }
